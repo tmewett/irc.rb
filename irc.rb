@@ -54,31 +54,31 @@ class IRC
                     puts "Joining channels..."
                     @cfg[:chan].each { |c| send("JOIN #{c}") }
 
-                when "353" # RPL_NAMES
-                    puts "Processing names..."
-                    @names[part[1][4]] = part[2][1..-1].map! { |u| u.gsub(/^[@\+]/, "") }
+                # when "353" # RPL_NAMES
+                #     puts "Processing names..."
+                #     @names[part[1][4]] = part[2][1..-1].map! { |u| u.gsub(/^[@\+]/, "") }
 
                 when "PRIVMSG"
                     if part[2][0] == @cfg[:nick]+"," or part[2][0] == @cfg[:nick]+":"
                         trigger(part[2][1], part[1][2], user, part[2][2..-1])
                     else
-                        trigger(:privmsg, part[1][2], user, part[2])
+                        trigger(:privmsg, part[1][2], user, part[2].join(" ").downcase)
                     end
 
                 when "JOIN"
                     if user != @cfg[:nick]
-                        @names[part[1][2]] << user
+                        # @names[part[1][2]] << user
                         trigger(:join, part[1][2], user)
                     end
 
                 when "PART"
                     if user != @cfg[:nick]
-                        @names[part[1][2]].delete(user)
+                        # @names[part[1][2]].delete(user)
                         trigger(:leave, part[1][2], user)
                     end
                 
                 when "QUIT"
-                    @names.each_value { |v| v.delete(user) }
+                    # @names.each_value { |v| v.delete(user) }
                     trigger(:leave, nil, user)
 
                 end
