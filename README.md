@@ -1,30 +1,12 @@
 irc.rb
 ======
 
-An IRC library that actually makes sense. Currently less than 100 lines!
+An IRC micro-library that makes sense. Event-driven and under 100 SLOC.
 
-## Example
+## Examples
+Check out `/examples` to learn how to build your own bot. Make sure to check out the methods below.
 
-```ruby
-require "irc"
-
-class Bot < IRC
-    def configure
-        on(:join) do |chan, user|
-            say chan, "Hello, #{user}!"
-        end
-    end
-end
-
-bot = Bot.new({
-    net: "irc.quakenet.org", port: 6667,
-    nick: "greetbot",
-    chan: ['#your', '#chans', '#here']
-})
-bot.start
-```
-
-## Usage
+## Methods
 
 ### `::new(hash)`
 Pass a configuration hash when you initialize the IRC class.
