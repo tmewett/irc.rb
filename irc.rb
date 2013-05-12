@@ -59,8 +59,10 @@ class IRC
                 #     @names[part[1][4]] = part[2][1..-1].map! { |u| u.gsub(/^[@\+]/, "") }
 
                 when "PRIVMSG"
-                    if part[2][0] == @cfg[:nick]+"," or part[2][0] == @cfg[:nick]+":"
+                    if part[2][0] == @cfg[:nick]+":" or part[2][0] == @cfg[:nick]+","
                         trigger(part[2][1], part[1][2], user, part[2][2..-1])
+                    elsif part[1][2] == @cfg[:nick] # If channel == nick (PM)
+                        trigger(part[2][0], user, user, part[2][1..-1])
                     else
                         trigger(:privmsg, part[1][2], user, part[2].join(" ").downcase)
                     end
